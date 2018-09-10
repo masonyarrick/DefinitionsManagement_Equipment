@@ -393,30 +393,37 @@
         "properties" : {
           "id" : {
             "type" : "string",
+            "description" : "A unique identification of a specific equipment class, within the scope of the information exchanged (production capability, production schedule, production performance, …) The ID shall be used in other parts of the model when the equipment class needs to be identified, such as the production capability for this equipment class, or a production response identifying the equipment class used.",
             "example" : "TRUCKS"
           },
           "version" : {
             "type" : "number",
+            "description" : "The version of this Equipment Class described by this message.",
             "example" : 1
           },
           "description" : {
             "type" : "string",
+            "description" : "Additional information about the equipment class.",
             "example" : "Ore Hauling Trucks"
           },
-          "hierarchyScopeId" : {
+          "equipmentLevel" : {
             "type" : "string",
-            "example" : "ER-IP"
+            "description" : "The level of equipment that the Material Class is applicable to.",
+            "example" : "Work Unit"
           },
           "parentClassId" : {
             "type" : "string",
+            "description" : "The class that this Equipment Class belongs to.",
             "example" : "HAULING"
           },
           "effectiveFrom" : {
             "type" : "string",
+            "description" : "The starting time of the applicability of this Equipment Class.",
             "example" : "201808151000"
           },
           "effectiveTo" : {
             "type" : "string",
+            "description" : "The ending time of the applicability of this Equipment Class.",
             "example" : "201808151000"
           },
           "properties" : {
@@ -429,18 +436,26 @@
       },
       "EquipmentClassProperty" : {
         "type" : "object",
-        "required" : [ "propertyKey", "propertyValue", "context", "unitOfMeasure" ],
+        "required" : [ "id", "value", "valueUnitOfMeasure" ],
         "properties" : {
-          "propertyKey" : {
+          "id" : {
             "type" : "string",
+            "description" : "An identification of the specific property.",
             "example" : "Haul Rate"
           },
-          "propertyValue" : {
+          "description" : {
             "type" : "string",
-            "example" : 9400
+            "description" : "Additional information about the equipment class property.",
+            "example" : "The rate that the truck can move material through the road network."
           },
-          "unitOfMeasure" : {
+          "value" : {
             "type" : "string",
+            "description" : "The value, set of values, or range of the property.",
+            "example" : "9400"
+          },
+          "valueUnitOfMeasure" : {
+            "type" : "string",
+            "description" : "The unit of measure of the associated property value, if applicable.",
             "example" : "Tonnes/Kilometers/Hour"
           }
         }
