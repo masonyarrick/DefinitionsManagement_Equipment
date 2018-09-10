@@ -389,6 +389,7 @@
     "schemas" : {
       "EquipmentClass" : {
         "type" : "object",
+        "description" : "An equipment class is a representation of a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance. Any piece of equipment may be a member of zero or more equipment classes. An equipment class may be tested by the execution of an equipment capability test specification.",
         "required" : [ "id", "version", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
         "properties" : {
           "id" : {
@@ -436,6 +437,7 @@
       },
       "EquipmentClassProperty" : {
         "type" : "object",
+        "description" : "Properties of an equipment class shall be listed as equipment class properties. Each may have zero or more recognized properties. An equipment class property may be tested by the execution of an equipment capability test specification.Equipment class properties may contain nested equipment class properties.",
         "required" : [ "id", "value", "valueUnitOfMeasure" ],
         "properties" : {
           "id" : {
@@ -462,6 +464,7 @@
       },
       "Equipment" : {
         "type" : "object",
+        "description" : "A representation of the elements of the equipment hierarchy model shown in Part 1 shall be known as equipment. Equipment may be a listing of sites, areas, production units, production lines, work cells, process cells, units, storage zones or storage units. Equipment may be tested by the execution of an equipment capability test specification. Equipment may be made up of other equipment, as presented in the equipment hierarchy model. ",
         "required" : [ "id", "version", "equipmentLevel", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
         "properties" : {
           "id" : {
@@ -514,6 +517,7 @@
       },
       "EquipmentProperty" : {
         "type" : "object",
+        "description" : "Properties of equipment shall be listed as equipment properties. An equipment shall have zero or more equipment properties. These specify the current property values of the equipment for the associated equipment class property. Equipment properties may include a unit of measure. An equipment property may be tested by the execution of an equipment capability test specification with results exchanged in an equipment capability test result. Equipment properties may contain nested equipment properties.",
         "required" : [ "id", "description", "value", "valueUnitOfMeasure" ],
         "properties" : {
           "id" : {
