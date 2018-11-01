@@ -1,18 +1,9 @@
 {
-  "openapi" : "3.0.0",
-  "servers" : [ {
-    "description" : "SwaggerHub API Auto Mocking",
-    "url" : "https://virtserver.swaggerhub.com/BHP_TECH_SI/DefinitionsManagement_Equipment/1.0.0-oas3"
-  }, {
-    "description" : "SwaggerHub API Auto Mocking",
-    "url" : "https://virtserver.swaggerhub.com/BHP7/DefinitionsManagement_Equipment/1.0.0-oas3"
-  }, {
-    "url" : "https://virtserver.swaggerhub.com/BHP7/DefinitionsManagement/1.0.0"
-  } ],
+  "swagger" : "2.0",
   "info" : {
-    "description" : "Product definition management shall be defined as the collection of activities that manage all of the Level 3 information about the product required for manufacturing, including the product production rules. Product definition information is shared between product production rules, bill of material and bill of resources. The product production rules contain the information used to instruct a manufacturing operation how to produce a product. This may be called a work master (ISA-95 Part 4), general, site, or master recipe (ANSI/ISA-88.00.01 and IEC 61512-1 definitions), standard operating procedure (SOP), standard operating conditions (SOC), routing, or assembly steps based on the production strategy used. The product definition information is made available to other Level 3 functions and to Level 2 functions as required. Product definition management includes management of the distribution of product production rules. Some of the product production rules may exist in Level 2 and Level 1 equipment. When that is the case, downloads of this information shall be coordinated with other manufacturing operations management functions to avoid affecting production. This information may be included as part of operational commands when the download is part of a production execution management activity.",
-    "version" : "1.0.0-oas3",
-    "title" : "Definitions Management Equipment API",
+    "description" : "The DM  Equipment (Definition) API uses defined messages to query (get) create (post), update (put) or delete individual versions of Equipment  objects which are Equipment Class, Equipment , and Test Specification. The Post/object messages are used to create a definition of a specific object type. The Put/object messages are used to update a definition of a specific object type. Delete/object messages used to delete a definition of a specific object type. The DM Equipment (Definitions) API provides Developers the Get/object messages to query for definition versions of a specific object type.  The DM function services production and support operations by managing all Level 3 and some Level 2 information definition. The primary work definition object is the work master which is the requirements for a work task in a scheduled job order.  The work master contains the required resourse specifications (bill of materials and required resources), the workflow specification for execution, and parameter specifications. The work master includes    1) Material specification object with material use for production operations as material produced, consumable, material consumed, by-product produced, co-product produced, and yield produced. The material specification is typically represents the manufacturing bill of materials (BoM).    2) Required equipment specifications and personnel specifications. The resource specifications define the applied resource definition or class objects.    3) Workflow specification object defines a workflow as a collection of nodes and connections with the rules for relationship and dependency. A node may reference a chilld work master for more detail. The workflow specification can reference a master recipe (ANSI/ISA-88.00.01 and IEC 61512-1 definitions), standard operating procedure (SOP), standard operating conditions (SOC), routing, or assembly steps based on the production strategy used.      4) parameter specification object defines the job order specific parameters and rule sets which instructs how L3 manufacturing operations and L2 process sequences how to execute production or supporting operations.     Each work master (ISA-95 Part 4) defines its scope as an equipment heirachy level as either general, site, work cell, unit or lower. The role based equipment model contains the information about specific equipment and the groupings as classes of equipment. The model contains the information that may be used to construct the hierarchical models used in manufacturing scenarios. The defined equipment levels, specified in the equipment level attributes, for role based equipment are enterprise, site, area, work center, work unit, process cell, unit, production line, production unit, work cell, storage zone, and storage unit. The types of work centers can be extended as needed for application specific role based equipment hierarchies where the defined types do not apply. When a new type is added it usually maintains the same relationship within the hierarchy as the defined work center types (within an area and contains work units).",
+    "version" : "1.0.1",
+    "title" : "Definition Management Equipment API",
     "contact" : {
       "email" : "mason.yarrick@bhp.com"
     },
@@ -34,33 +25,26 @@
         "tags" : [ "developers" ],
         "summary" : "gets equipment classes",
         "operationId" : "getEquipmentClass",
-        "description" : "Gets equipment classes with specific IDs\n",
+        "description" : "Gets equipment classes with specific Ids\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
-          "description" : "Equipment Class ID",
+          "description" : "Equipment Class Id",
           "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         }, {
           "in" : "query",
           "name" : "version",
-          "description" : "The version of the spec to get the class for",
+          "description" : "The version of the spec to get the equipment class from",
           "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/EquipmentClass"
-                }
-              }
+            "schema" : {
+              "$ref" : "#/definitions/equipmentClass"
             }
           },
           "404" : {
@@ -72,15 +56,14 @@
         "tags" : [ "admins" ],
         "summary" : "deletes equipment classes",
         "operationId" : "deleteEquipmentClass",
-        "description" : "Deletes equipment classes with specific IDs\n",
+        "description" : "Deletes equipment classes with specific Ids\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
-          "description" : "Equipment Class ID",
+          "description" : "Equipment Class Id",
           "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "201" : {
@@ -95,26 +78,22 @@
         "tags" : [ "admins" ],
         "summary" : "updates equipment classes",
         "operationId" : "updateEquipmentClass",
-        "description" : "Updates equipment classes with specific IDs\n",
+        "description" : "Updates equipment classes with specific Ids\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
-          "description" : "Equipment Class ID",
+          "description" : "Equipment Class Id",
           "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "equipmentClass",
+          "description" : "The equipment class to create.",
           "schema" : {
-            "type" : "string"
+            "$ref" : "#/definitions/equipmentClass"
           }
         } ],
-        "requestBody" : {
-          "required" : true,
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/EquipmentClass"
-              }
-            }
-          }
-        },
         "responses" : {
           "201" : {
             "description" : "Updated"
@@ -131,55 +110,44 @@
         "summary" : "searches for equipment classes",
         "operationId" : "findEquipmentClasses",
         "description" : "Searches for equipment classes with specific properties\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "query",
           "name" : "id",
           "description" : "the unique identifier of the equipment class to retrieve",
           "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         }, {
           "in" : "query",
           "name" : "hierarchyScopeId",
           "description" : "The hierarchy scope to retrieve equipment classes by",
           "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         }, {
           "in" : "query",
           "name" : "limit",
           "description" : "the number of results to return",
           "required" : false,
-          "schema" : {
-            "type" : "number"
-          }
+          "type" : "number"
         }, {
           "in" : "query",
           "name" : "version",
-          "description" : "the version of the spec to get classes for",
+          "description" : "the version of the spec to retrieve the equipment class for",
           "required" : false,
-          "schema" : {
-            "type" : "number"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
             "description" : "search results matching criteria",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/EquipmentClass"
-                  }
-                }
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/equipmentClass"
               }
             }
           },
           "400" : {
-            "description" : "bad input parameter"
+            "description" : "Bad input parameter"
           }
         }
       },
@@ -188,16 +156,15 @@
         "summary" : "creates equipment classes",
         "operationId" : "createEquipmentClass",
         "description" : "Create new items of equipment classes in the system\n",
-        "requestBody" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "equipmentClass",
           "required" : true,
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/EquipmentClass"
-              }
-            }
+          "schema" : {
+            "$ref" : "#/definitions/equipmentClass"
           }
-        },
+        } ],
         "responses" : {
           "201" : {
             "description" : "Created"
@@ -212,34 +179,27 @@
       "get" : {
         "tags" : [ "developers" ],
         "summary" : "gets equipment",
-        "operationId" : "getEquipmentItem",
-        "description" : "Gets equipment with specific IDs\n",
+        "operationId" : "getEquipment",
+        "description" : "Gets equipment with specific Ids\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
-          "description" : "Equipment ID",
+          "description" : "Equipment Id",
           "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         }, {
           "in" : "query",
-          "name" : "id",
+          "name" : "version",
           "description" : "The version of the spec to get the equipment for",
           "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "Successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Equipment"
-                }
-              }
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/equipment"
             }
           },
           "404" : {
@@ -251,15 +211,14 @@
         "tags" : [ "admins" ],
         "summary" : "deletes equipment",
         "operationId" : "deleteEquipment",
-        "description" : "Delete existing items of equipment from the system\n",
+        "description" : "Deletes equipment with specific Ids\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
-          "description" : "Equipment ID",
+          "description" : "Equipment Id",
           "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "201" : {
@@ -274,32 +233,31 @@
         "tags" : [ "admins" ],
         "summary" : "updates equipment",
         "operationId" : "updateEquipment",
-        "description" : "Update existing items of equipment in the system\n",
+        "description" : "Updates equipment with specific Ids\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
           "name" : "id",
-          "description" : "Equipment ID",
+          "description" : "equipment Id",
           "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "equipment",
+          "description" : "The equipment to update.",
           "schema" : {
-            "type" : "string"
+            "$ref" : "#/definitions/equipment"
           }
         } ],
-        "requestBody" : {
-          "required" : true,
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Equipment"
-              }
-            }
-          }
-        },
         "responses" : {
           "201" : {
             "description" : "Updated"
           },
           "400" : {
             "description" : "Bad input parameter"
+          },
+          "404" : {
+            "description" : "Not found"
           }
         }
       }
@@ -307,53 +265,36 @@
     "/equipment" : {
       "get" : {
         "tags" : [ "developers" ],
-        "summary" : "retrieves equipment",
-        "operationId" : "searchEquipment",
-        "description" : "By passing in the appropriate options, you can search for available equipment items in the system\n",
+        "summary" : "searches for equipment",
+        "operationId" : "findEquipment",
+        "description" : "Searches for equipment with specific properties\n",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "query",
           "name" : "id",
           "description" : "the unique identifier of the equipment to retrieve",
           "required" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "in" : "query",
-          "name" : "hierarchyScopeId",
-          "description" : "The hierarchy scope to retrieve equipment by",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
+          "type" : "string"
         }, {
           "in" : "query",
           "name" : "limit",
           "description" : "the number of results to return",
           "required" : false,
-          "schema" : {
-            "type" : "number"
-          }
+          "type" : "number"
         }, {
           "in" : "query",
           "name" : "version",
-          "description" : "the version of the spec to get equipment for",
+          "description" : "the version of the spec to retrieve the equipment for",
           "required" : false,
-          "schema" : {
-            "type" : "number"
-          }
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
             "description" : "search results matching criteria",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Equipment"
-                  }
-                }
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/equipment"
               }
             }
           },
@@ -367,16 +308,15 @@
         "summary" : "creates equipment",
         "operationId" : "createEquipment",
         "description" : "Create new items of equipment in the system\n",
-        "requestBody" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "equipment",
           "required" : true,
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Equipment"
-              }
-            }
+          "schema" : {
+            "$ref" : "#/definitions/equipment"
           }
-        },
+        } ],
         "responses" : {
           "201" : {
             "description" : "Created"
@@ -388,195 +328,454 @@
       }
     }
   },
-  "components" : {
-    "schemas" : {
-      "EquipmentClass" : {
-        "type" : "object",
-        "description" : "An equipment class is a representation of a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance. Any piece of equipment may be a member of zero or more equipment classes. An equipment class may be tested by the execution of an equipment capability test specification.",
-        "required" : [ "id", "version", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "A unique identification of a specific equipment class, within the scope of the information exchanged (production capability, production schedule, production performance, …) The ID shall be used in other parts of the model when the equipment class needs to be identified, such as the production capability for this equipment class, or a production response identifying the equipment class used.",
-            "example" : "TRUCKS"
-          },
-          "version" : {
-            "type" : "number",
-            "description" : "The version of this Equipment Class described by this message.",
-            "example" : 1
-          },
-          "description" : {
-            "type" : "string",
-            "description" : "Additional information about the equipment class.",
-            "example" : "Ore Hauling Trucks"
-          },
-          "equipmentLevel" : {
-            "type" : "string",
-            "description" : "The level of equipment that the Material Class is applicable to.",
-            "example" : "Work Unit"
-          },
-          "parentClassId" : {
-            "type" : "string",
-            "description" : "The class that this Equipment Class belongs to.",
-            "example" : "HAULING"
-          },
-          "effectiveFrom" : {
-            "type" : "string",
-            "description" : "The starting time of the applicability of this Equipment Class.",
-            "example" : "201808151000"
-          },
-          "effectiveTo" : {
-            "type" : "string",
-            "description" : "The ending time of the applicability of this Equipment Class.",
-            "example" : "201808151000"
-          },
-          "properties" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/EquipmentClassProperty"
-            }
+  "definitions" : {
+    "equipmentClass" : {
+      "type" : "object",
+      "description" : "A representation of a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance shall be presented as an equipment class. Any piece of equipment may be a member of zero or more equipment classes. An equipment class may be defined as a specialization of zero or more equipment classes.  An equipment class may be made up of zero or more equipment classes. An equipment class may be tested by the evaluation of the test specification criteria in the test specification that references the evaluated property and may be recorded in an evaluated criterion result attribute in the test result.",
+      "required" : [ "id", "version", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique identification of a specific equipment class, within the scope of the information exchanged (work and operations capability, work and operations schedule, work and operations performance, …). Required attribute. The Id is used in other parts of the model when the equipment class needs to be identified, such as the production capability for this equipment class, or a work response identifying the equipment class used.",
+          "example" : "Welder Class 2"
+        },
+        "version" : {
+          "type" : "string",
+          "description" : "The version number of this equipment class.",
+          "example" : 1
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the equipment class.",
+          "example" : "High Grade Ore"
+        },
+        "hierarchyScopeId" : {
+          "type" : "string",
+          "description" : "Identifies where the exchanged information fits within the role based equipment hierarchy. Optionally, hierarchy scope defines the scope of the personnel class definition, such as the site or area where it is defined.",
+          "example" : "Eastern Ridge (site)"
+        },
+        "equipmentClassParentIds" : {
+          "type" : "array",
+          "description" : "The equipment class properties of the identified parent equipment class(s) are the included properties of the equipment class.",
+          "example" : "IN-SITU",
+          "items" : {
+            "type" : "string"
           }
-        }
-      },
-      "EquipmentClassProperty" : {
-        "type" : "object",
-        "description" : "Properties of an equipment class shall be listed as equipment class properties. Each may have zero or more recognized properties. An equipment class property may be tested by the execution of an equipment capability test specification.Equipment class properties may contain nested equipment class properties.",
-        "required" : [ "id", "value", "valueUnitOfMeasure" ],
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "An identification of the specific property.",
-            "example" : "Haul Rate"
-          },
-          "description" : {
-            "type" : "string",
-            "description" : "Additional information about the equipment class property.",
-            "example" : "The rate that the truck can move material through the road network."
-          },
-          "value" : {
-            "type" : "string",
-            "description" : "The value, set of values, or range of the property.",
-            "example" : "9400"
-          },
-          "valueUnitOfMeasure" : {
-            "type" : "string",
-            "description" : "The unit of measure of the associated property value, if applicable.",
-            "example" : "Tonnes/Kilometers/Hour"
+        },
+        "testSpecifications" : {
+          "type" : "array",
+          "description" : "The test specification(s) used to evaluate the equipment class.",
+          "example" : "TS-EX-1.0",
+          "items" : {
+            "$ref" : "#/definitions/testSpecification"
           }
-        }
-      },
-      "Equipment" : {
-        "type" : "object",
-        "description" : "A representation of the elements of the equipment hierarchy model shown in Part 1 shall be known as equipment. Equipment may be a listing of sites, areas, production units, production lines, work cells, process cells, units, storage zones or storage units. Equipment may be tested by the execution of an equipment capability test specification. Equipment may be made up of other equipment, as presented in the equipment hierarchy model.",
-        "required" : [ "id", "version", "equipmentLevel", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "A unique identification of a specific piece of equipment, within the scope of the information exchanged (manufacturing operations definition, scheduling, capability and performance) The equipment ID shall be used in other parts of the model when the equipment needs to be identified, such as the production capability for a piece of equipment, or a production response identifying the equipment used.",
-            "example" : "EX7015"
-          },
-          "version" : {
-            "type" : "number",
-            "description" : "The version of this Equipment that this message describes.",
-            "example" : 1
-          },
-          "equipmentLevel" : {
-            "type" : "string",
-            "description" : "An identification of the level in the role based equipment hierarchy.",
-            "example" : "Work Unit"
-          },
-          "equipmentClassId" : {
-            "type" : "string",
-            "description" : "The type of this Equipment item",
-            "example" : "ER-9400"
-          },
-          "description" : {
-            "type" : "string",
-            "description" : "Additional information about the equipment.",
-            "example" : "Excavator EX7015"
-          },
-          "hierarchyScopeId" : {
-            "type" : "string",
-            "description" : "The part of the supply chain where the Equipment item exists.",
-            "example" : "ER-IP"
-          },
-          "effectiveFrom" : {
-            "type" : "string",
-            "description" : "The timestamp that this Equipment item version is applicable from.",
-            "example" : "201808151000"
-          },
-          "effectiveTo" : {
-            "type" : "string",
-            "description" : "The timestamp that this Equipment item version is applicable to.",
-            "example" : "201808151000"
-          },
-          "spatialDefinition" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/SpatialDefinition"
-            }
-          },
-          "properties" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/EquipmentProperty"
-            }
-          }
-        }
-      },
-      "EquipmentProperty" : {
-        "type" : "object",
-        "description" : "Properties of equipment shall be listed as equipment properties. An equipment shall have zero or more equipment properties. These specify the current property values of the equipment for the associated equipment class property. Equipment properties may include a unit of measure. An equipment property may be tested by the execution of an equipment capability test specification with results exchanged in an equipment capability test result. Equipment properties may contain nested equipment properties.",
-        "required" : [ "id", "description", "value", "valueUnitOfMeasure" ],
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "An identification of the specific property.",
-            "example" : "DigRate"
-          },
-          "description" : {
-            "type" : "string",
-            "description" : "Additional information about the equipment property.",
-            "example" : "Dig Rate"
-          },
-          "value" : {
-            "type" : "string",
-            "description" : "The value, set of values, or range of the property. The value(s) is assumed to be within the range or set of defined values for the related equipment property.",
-            "example" : 3600
-          },
-          "valueUnitOfMeasure" : {
-            "type" : "string",
-            "description" : "The unit of measure of the associated property value, if applicable.",
-            "example" : "Tonnes/Hour"
-          }
-        }
-      },
-      "SpatialDefinition" : {
-        "type" : "object",
-        "description" : "The spatial definition provides a means of communicating 0-dimensional point, 1-dimensional line, or 2-dimensional shape or 3-dimensional solid geospatial location data for planning/scheduling, actuals, resources, and analytics. Spatial definition identifies a value and the pre-defined coordinate reference system using following attributes a)  value; b)  format; c)  spatial reference identifier (SRID); and d)  SRID authority. A fully qualified spatial definition exchange has all 4 attributes as a minimum.  In some information exchanges, sending and receiving applications may have a specified agreement on format, SRID, and SRID authority. Spatial definition is distinct from, and separate to storage location and physical location. Storage location attribute is defined for material lots and material sublots as a non-spatial definition of location. The physical location attribute logically identifies a “place” which is actual physical location of the physical asset.",
-        "properties" : {
-          "value" : {
-            "type" : "string",
-            "description" : "A string serialization EXAMPLE 1 UN/CEFACT CCTS: TextType) of the geospatial information in the format indicated in the format attribute.",
-            "example" : "POLYGON ( (-2594646.99104 11815676.18456, -2594645.14848 11815683.08856, -2594646.99104 11815676.18456 ) )"
-          },
-          "format" : {
-            "type" : "string",
-            "description" : "An enumerator that determines the format of the value attribute.",
-            "example" : "WKT"
-          },
-          "srid" : {
-            "type" : "string",
-            "description" : "SRID is the Spatial Reference Identifier which identifies the coordinate reference system to identify a pre-defined coordinate reference system (pre-configured into communication systems). An identifier from the SRID Authority.",
-            "example" : "6283 (Geocentric Datum of Australia 1994)"
-          },
-          "sridAuthority" : {
-            "type" : "string",
-            "description" : "The SRID authority identifies the authority that defines the coordinate reference system identified by the SRID. EXAMPLE 2 EPSG (see http://www.epsg-registry.org/). An organization may choose to define its own SRIDs. EXAMPLE 3 Reference its own authority.",
-            "example" : "EPSG"
+        },
+        "effectiveFrom" : {
+          "type" : "string",
+          "description" : "Custom non-ISA-95 attribute for BHP requirements. The timestamp that this equipment class is effective from.",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "effectiveTo" : {
+          "type" : "string",
+          "description" : "Custom non-ISA-95 attribute for BHP requirements. The timestamp that this equipment class is effective to.",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "equipmentClassProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/equipmentClassProperty"
           }
         }
       }
+    },
+    "equipmentClassProperty" : {
+      "type" : "object",
+      "description" : "Properties of an equipment class shall be presented as equipment class properties. Each may have zero or more recognized properties. An equipment class property may be tested to the evaluated property in a test specification where the measured results may be recorded in a property measurement attribute in a test result. The measured results may also be evaluated to the test specification criteria in the test specification that references the evaluated property where they may be recorded in an evaluated criterion result attribute in the test result. Equipment class properties may contain nested equipment class properties.  Equipment class properties for the equipment class reactor unit can be lining material, BTU extraction rate, and volume.",
+      "required" : [ "id", "value", "valueUnitOfMeasure" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "An identification of a specific equipment class property.",
+          "example" : "Fe"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the equipment class property.",
+          "example" : "Iron"
+        },
+        "propertyType" : {
+          "type" : "string",
+          "description" : "Defines the type of the property. Defined types are 1) class type, the property value is defined for the class and there is no value associated with an instance; 2)  instance type, the property value of the class is undefined; and 3) default type, the property value is defined for the class as the default instance value, but individual instances of the class may redefine specific values.",
+          "example" : "Instance type"
+        },
+        "equipmentClassPropertyChildIds" : {
+          "type" : "array",
+          "description" : "The equipment class properties of the identified parent equipment class property(s) are the included properties of the equipment class property.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The value, set of values, or range of the equipment class property.",
+          "example" : "62"
+        },
+        "valueUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated equipment class property value, if applicable.",
+          "example" : "percentage"
+        }
+      }
+    },
+    "equipment" : {
+      "type" : "object",
+      "description" : "A representation of the elements of the equipment hierarchy model shown in ISA 95.00.01 shall be presented as equipment. Equipment may be a listing of any of the following: enterprise, site, area, work center, work unit, process cell, unit, production line, production unit, work cell, storage zone, and storage unit. Equipment may be tested by the execution of the test specification criteria in the test specification that references the evaluated property and may be recorded in an evaluated criterion result attribute in the test result. Equipment may be made up of other equipment, as presented in the equipment hierarchy model. EXAMPLE 1,  a production line can be made up of work cells. EXAMPLE 2,  a reactor can be made up of sensors, valves, an agitator, and level switches.",
+      "required" : [ "id", "version", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique identification of a specific piece of equipment, within the scope of the information exchanged (manufacturing operations definition, scheduling, capability and performance). Required attribute. The equipment ID is used in other parts of the model when the equipment needs to be identified, such as the operations capability for a piece of equipment, or a operations response identifying the equipment used.",
+          "example" : "Jig 347"
+        },
+        "version" : {
+          "type" : "string",
+          "description" : "Custom non-ISA-95 attribute for BHP requirements. The version number of this instance of the equipment.",
+          "example" : "Jig 347.1"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the equipment.",
+          "example" : "High Grade Ore"
+        },
+        "hierarchyScopeId" : {
+          "type" : "string",
+          "description" : "Identifies where the exchanged information fits within the role based equipment hierarchy. Optionally, hierarchy scope defines the scope of the personnel class definition, such as the site or area where it is defined.",
+          "example" : "Eastern Ridge (site)"
+        },
+        "equipmentClassIds" : {
+          "type" : "array",
+          "description" : "Equipment classes supported by this equipment. This equipment supports the equipment class property(s) associated with the equipment class.",
+          "example" : "In-Situ",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "testSpecifications" : {
+          "type" : "array",
+          "description" : "The test specification(s) used to evaluate the equipment.",
+          "example" : "TS-EX-1.0",
+          "items" : {
+            "$ref" : "#/definitions/testSpecification"
+          }
+        },
+        "effectiveFrom" : {
+          "type" : "string",
+          "description" : "Custom non-ISA-95 attribute for BHP requirements. The timestamp that this equipment class is effective from.",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "effectiveTo" : {
+          "type" : "string",
+          "description" : "Custom non-ISA-95 attribute for BHP requirements. The timestamp that this equipment class is effective to.",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "spatialDefinition" : {
+          "type" : "array",
+          "description" : "Spatially defines the equipment as a 0-dimensional point, 1-dimensional line, or 2-dimensional shape or 3-dimensional solid",
+          "items" : {
+            "$ref" : "#/definitions/spatialDefinition"
+          }
+        },
+        "equipmentProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/equipmentProperty"
+          }
+        }
+      }
+    },
+    "equipmentProperty" : {
+      "type" : "object",
+      "description" : "Properties of equipment shall be presented as equipment properties. An equipment shall have zero or more equipment properties. These specify the current property values of the equipment for the associated equipment class property. Equipment properties may include a unit of measure. An equipment property may be tested to the evaluated property in a test specification where the measured results may be recorded in a property measurement attribute in a test result. The measured results may also be evaluated to the test specification criteria in the test specification that references the evaluated property where they may be recorded in an evaluated criterion result attribute in the test result. Equipment property(s) may contain nested equipment properties. An equipment property can exist without an associated equipment class property, however all parties in an exchange will have to have a common understanding of the equipment property. EXAMPLE 1, an equipment class property can be volume with a value of {10 000 – 50 000} with a unit of measure of liters, an equipment property can be volume with a value of 30 000 and a unit of measure of liters.",
+      "required" : [ "id", "description", "value", "valueUnitOfMeasure" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "An identification of a specific equipment class property.",
+          "example" : "DigRate"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the equipment class property.",
+          "example" : "Dig Rate"
+        },
+        "equipmentPropertyChildIds" : {
+          "type" : "array",
+          "description" : "This nested equipment property(s) is part of the person property as the whole.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "equipmentClassPropertyId" : {
+          "type" : "string",
+          "description" : "If the equipment supports the parent equipment class, the equipment class property(s) is applied in this equipment property(s). This equipment property maps to the corresponding equipment class property."
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The value, set of values, or range of the equipment class property.",
+          "example" : 3600
+        },
+        "valueUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated equipment class property value, if applicable.",
+          "example" : "Tonnes/Hour"
+        }
+      }
+    },
+    "testSpecification" : {
+      "description" : "The test specification details the test specification criteria and the tested evaluated property(s) required for a testable object (personnel class, person, equipment class, equipment, material class, material definition, material lot, material sublot) to match the quality or performance requirements of an operations requirement from a schedule, the business or particular customers. The test specification communicates the test tolerances and related target values for a specific testable object referencing a set of operations test requirements for context of the test. A test specification may contain other test specifications to form a hierarchy of test specifications. When a hierarchy of test specifications are used, the result of the parent object in the hierarchy shall be the worst-case result of all the respective child object results.",
+      "required" : [ "id", "version" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Required attribute. Uniquely identifies a test specification for certifying one or more test specification criteria for one or more evaluated property.",
+          "example" : "TS-EXT"
+        },
+        "version" : {
+          "type" : "string",
+          "description" : "An identification of the version of the test specification.",
+          "example" : "TS-EXT 1.1"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains additional information and descriptions of the test specification.",
+          "example" : "Test specification for Extraction"
+        },
+        "hierarchyScopeId" : {
+          "type" : "string",
+          "description" : "Identifies where the exchanged information fits within the role based equipment hierarchy. Optionally, hierarchy scope defines the scope of the object, such as the site or area.",
+          "example" : "Eastern Ridge (site)"
+        },
+        "testSpecificationChildIds" : {
+          "type" : "array",
+          "description" : "The child test specifications of this test specification..",
+          "example" : "EX-TRAVEL 1.0",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "operationsTestRequirementIds" : {
+          "type" : "array",
+          "description" : "The operations test requirement ID(s) evaluated by this test specification.",
+          "example" : "MD-grade 1.1",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "testableObjectIds" : {
+          "type" : "array",
+          "description" : "The ID of the testable object tested by this test specification",
+          "example" : "MD-grade 1.1",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "effectiveStartDate" : {
+          "type" : "string",
+          "description" : "The effective start date and time for use of the test specification or set of test specifications",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "effectiveEndDate" : {
+          "type" : "string",
+          "description" : "The effective end date and time for use of the test specification or set of test specifications",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "publishedDate" : {
+          "type" : "string",
+          "description" : "The date and time test specification was published or generated",
+          "example" : "ISO 8601: yyyy-mm-ddThh:mm:ss for local time as 2002-09-22T09:15:23"
+        },
+        "testSampleSize" : {
+          "type" : "string",
+          "description" : "Sample size required to perform the test.",
+          "example" : "200 Kilo Tonnes"
+        },
+        "physicalSample" : {
+          "type" : "string",
+          "description" : "Defines whether physical sampling is required to perform the test. Defined values are yes for physical samples are required and no for physical samples are not required.",
+          "example" : "Y"
+        },
+        "recurranceQuantity" : {
+          "type" : "string",
+          "description" : "The amount of operations activity required between samples.",
+          "example" : "each load"
+        },
+        "recurrenceTimeInterval" : {
+          "type" : "string",
+          "description" : "The duration of operational activity required between samples",
+          "example" : "each 60 min"
+        },
+        "testSpecificationCriteria" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/testSpecificationCriteria"
+          }
+        },
+        "evaluatedProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/evaluatedProperty"
+          }
+        },
+        "tesstSpecificationProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/testSpecificationProperty"
+          }
+        }
+      }
+    },
+    "testSpecificationProperty" : {
+      "type" : "object",
+      "description" : "The test specification property object defines properties of the test specification. These properties are not the characteristics to be tested.",
+      "required" : [ "id", "value", "valueUnitOfMeasure" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique identification of a test specification property.",
+          "example" : "EX-WM-TRAVEL-SPEED"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the test specification property.",
+          "example" : "Speed"
+        },
+        "testSpecificationPropertyChildIds" : {
+          "type" : "array",
+          "description" : "Unique identifications of children of the test specification property as test specification property IDs which make up part",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "value" : {
+          "type" : "number",
+          "description" : "The default value, set of values, or range of the test specification property.",
+          "example" : 60
+        },
+        "valueUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated test specification property value, if applicable.",
+          "example" : "Kilometres/Hour"
+        }
+      }
+    },
+    "testSpecificationCriteria" : {
+      "type" : "object",
+      "description" : "The test specification criteria object defines the set of criterion to evaluate and the test result to be reported when a testable object satisfies those criteria. This test specification criteria used to evaluate the evaluated property of a testable object property.",
+      "required" : [ "id", "sequence", "expression", "result", "evaluatedPropertyIds" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Uniquely identifies the test specification criteria definition.",
+          "example" : "Fe_warning"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains additional information and descriptions of the test specification criteria.",
+          "example" : "Fe warning ranges"
+        },
+        "sequence" : {
+          "type" : "string",
+          "description" : "Specifies the sequence of evaluation of test specification criteria. The sequence shall be executed lowest first. Duplicate sequence values shall be executed in parallel with worst case result reported if both criterion are evaluated as true.",
+          "example" : "Node 1.1A"
+        },
+        "expression" : {
+          "type" : "string",
+          "description" : "An expression of the test specification criteria to be evaluated. If the expression is empty, then the test specification criteria represents the else criterion.",
+          "example" : "If (criterion 1) then ‘pass’ else if (criterion 2) then ‘warn’ else ‘fail’."
+        },
+        "result" : {
+          "type" : "string",
+          "description" : "The value to be given to the result of the test if the test specification criteria expression is evaluated as true",
+          "example" : "pass"
+        },
+        "evaluatedPropertyIds" : {
+          "type" : "array",
+          "description" : "The test specification criteria used to evaluate this evaluated property(s) of a testable object property.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "evaluatedProperty" : {
+      "type" : "object",
+      "description" : "The evaluated property object identifies the set of testable object / testable object property pairs to be measured and the applicable test method to obtain a property measurement. This test specification criteria used to evaluate the evaluated property of a testable object property.",
+      "required" : [ "id", "testableObjectPropertyIds", "testSpecificationCriteriaIds" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique identification of an evaluated property.",
+          "example" : "EX-WM-TRAVEL-SPEED"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about an evaluated property.",
+          "example" : "Speed"
+        },
+        "testableObjectPropertyIds" : {
+          "type" : "array",
+          "description" : "The testable object property ID which is to be measured by this test specification.",
+          "example" : "MS-Grade 1.1",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "workMasterIds" : {
+          "type" : "array",
+          "description" : "The work master ID or work directive ID which is applied test method to obtain the measurement of this evaluated property for test specification of the testable object property ID.",
+          "example" : "WM-EXE 1.1",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "testSpecificationCriteriaIds" : {
+          "type" : "array",
+          "description" : "This test specification criteria used to evaluate the evaluated property of a testable object property.",
+          "example" : "TSC-1.1",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "spatialDefinition" : {
+      "type" : "object",
+      "description" : "The spatial definition provides a means of communicating 0-dimensional point, 1-dimensional line, or 2-dimensional shape or 3-dimensional solid geospatial location data for planning/scheduling, actuals, resources, and analytics. Spatial definition identifies a value and the pre-defined coordinate reference system using following attributes a)  value; b)  format; c)  spatial reference identifier (SRID); and d)  SRID authority. A fully qualified spatial definition exchange has all 4 attributes as a minimum.  In some information exchanges, sending and receiving applications may have a specified agreement on format, SRID, and SRID authority. Spatial definition is distinct from, and separate to storage location and physical location. Storage location attribute is defined for material lots and material sublots as a non-spatial definition of location. The physical location attribute logically identifies a “place” which is actual physical location of the physical asset.",
+      "properties" : {
+        "value" : {
+          "type" : "string",
+          "description" : "A string serialization EXAMPLE 1 UN/CEFACT CCTS: TextType) of the geospatial information in the format indicated in the format attribute.",
+          "example" : "POLYGON ( (-2594646.99104 11815676.18456, -2594645.14848 11815683.08856, -2594646.99104 11815676.18456 ) )"
+        },
+        "format" : {
+          "type" : "string",
+          "description" : "An enumerator that determines the format of the value attribute.",
+          "example" : "WKT"
+        },
+        "srid" : {
+          "type" : "string",
+          "description" : "SRID is the Spatial Reference Identifier which identifies the coordinate reference system to identify a pre-defined coordinate reference system (pre-configured into communication systems). An identifier from the SRID Authority.",
+          "example" : "6283 (Geocentric Datum of Australia 1994)"
+        },
+        "sridAuthority" : {
+          "type" : "string",
+          "description" : "The SRID authority identifies the authority that defines the coordinate reference system identified by the SRID. EXAMPLE 2 EPSG (see http://www.epsg-registry.org/). An organization may choose to define its own SRIDs. EXAMPLE 3 Reference its own authority.",
+          "example" : "EPSG"
+        }
+      }
     }
-  }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "schemes" : [ "https" ],
+  "basePath" : "/BHP_TECH_SI/DefinitionsManagement_Material/1.0.0"
 }
